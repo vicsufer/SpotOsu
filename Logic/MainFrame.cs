@@ -11,6 +11,7 @@ namespace Logic
     public class MainFrame
     {
         Spotify sp;
+        SoundCloud sc;
 
         public CollectionDb collections_db;
         public OsuDb osu_db;
@@ -26,22 +27,45 @@ namespace Logic
             osu_db = OsuDb.Read(Osu_path + "osu!.db");
         }
 
-        public async Task CreatePlaylistAsync(string clientID, string playlistName, IEnumerable<string> collection = null, bool mode = true)
+        public async Task<int> CreateSpotifyPlaylistAsync(string clientID, string playlistName, IEnumerable<string> collection = null, bool mode = true)
         {
             sp = new Spotify(clientID);
-            sp.CreatePlaylistByCollection(playlistName, GetBeatmapsByNamesList(collection) ,true);
+            int numberOfSongs;
+            sp.CreatePlaylistByCollection(playlistName, GetBeatmapsByNamesList(collection) ,out numberOfSongs, true);
+            return numberOfSongs;
         }
+
 
         public IEnumerable<BeatmapLittle> GetBeatmapsByNamesList(IEnumerable<string> names)
         {
             List<BeatmapLittle> beatmaps = new List<BeatmapLittle>();
             Parallel.ForEach(names, name =>
             {
-                var beatmap = osu_db.Beatmaps.Find( x => x.Title.Equals(name));
+                var beatmap = osu_db.Beatmaps.Find(x => x.Title.ToLower().Equals(name.ToLower()));
                 lock (beatmaps) { beatmaps.Add(new BeatmapLittle(name)); }
             });
             return beatmaps;
         }
+
+
+        public IEnumerable<BeatmapLittle> GetBeatmapsBySetIDList(IEnumerable<int> list)
+        {
+            List<BeatmapLittle> beatmaps = new List<BeatmapLittle>();
+            Parallel.ForEach(list, id =>
+            {
+                var beatmap =  GetBeatmapBySetID(id);
+                lock (beatmaps) { beatmaps.Add(new BeatmapLittle(beatmap)); }
+            });
+            return beatmaps;
+        }
+
+        public BeatmapEntry GetBeatmapBySetID(int set_id)
+        {
+
+            return osu_db.Beatmaps.Find( x => x.BeatmapSetId == set_id);
+        }
+
+
         public IEnumerable<BeatmapLittle> GetCollectionBeatmaps(string collectionName)
         {
             if (collectionName.ToLower().Equals("all"))

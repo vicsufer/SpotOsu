@@ -9,16 +9,42 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Logic;
 using System.Threading;
+using System.IO;
 
 namespace SpotOsu
 {
     public partial class Form1 : Form
     {
+        enum Mode { SOUNDCLOUD, SPOTIFY};
+        Mode currentMode;
         MainFrame mf;
+
         public Form1()
         {
             InitializeComponent();
             txtOsuPath.Text = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\" ;
+            ChangeMode(Mode.SPOTIFY);
+            btnChangeMode.Enabled = false;
+        }
+       
+        private void ChangeMode(Mode mode)
+        {
+            switch (mode)
+            {
+                case Mode.SOUNDCLOUD:
+                    lblSpotifyClientID.Visible = false;
+                    txtSpotifyClient.Visible = false;
+                    btnChangeMode.Text = "Spotify Mode";                
+                    currentMode = Mode.SOUNDCLOUD;
+                    break;
+
+                case Mode.SPOTIFY:
+                    lblSpotifyClientID.Visible = true;
+                    txtSpotifyClient.Visible = true;
+                    btnChangeMode.Text = "SoundCloud Mode";
+                    currentMode = Mode.SPOTIFY;
+                    break;
+            }
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -51,7 +77,7 @@ namespace SpotOsu
                     tracks.Add(each);
                 }
             }
-            var tracks2 = tracks.GroupBy( x => x.title).Select( x=>x.First() );
+            var tracks2 = tracks.GroupBy( x => x.title).Select( x=>x.First() ).OrderBy(x=> x.title);
 
             foreach(var song in tracks2)
             {
@@ -60,11 +86,11 @@ namespace SpotOsu
             }
         }
 
-        private async void btnCreatePlaylist_Click(object sender, EventArgs e)
+        private async Task CreateSpotifyPlaylistAsync(IEnumerable<string> songs)
         {
-            
             string token = txtSpotifyClient.Text;
             string playlistName = txtPlaylistName.Text;
+
             if (token == string.Empty)
             {
                 MessageBox.Show("Token is empty");
@@ -75,19 +101,13 @@ namespace SpotOsu
                 playlistName = "New osu! playlist";
             }
             btnCreatePlaylist.Enabled = false;
-            var items = lstPlaylist.Items.Cast<String>();
+            
             lblCurrentStatus.Text = "Working...\nPlease wait.";
-
 
             try
             {
-                //Action action = () => mf.CreatePlaylistAsync(token, playlistName, items);
-                //Task task = new Task(action);
-                //task.Start();
-                //await task;
-                await mf.CreatePlaylistAsync(token, playlistName, items);
-
-
+                int numberOfSongs = await mf.CreateSpotifyPlaylistAsync(token, playlistName, songs);
+                MessageBox.Show("Playlist Created with: "+numberOfSongs+" songs");
                 lblCurrentStatus.Text = "Completed";
             }
             catch (Exception except)
@@ -95,11 +115,25 @@ namespace SpotOsu
                 MessageBox.Show(except.Message);
                 lblCurrentStatus.Text = "Error";
             }
+
+            return;
+        }
+
+        private async void btnCreatePlaylist_Click(object sender, EventArgs e)
+        {
+            var items = lstPlaylist.Items.Cast<string>();
+
+            var split = items.Select(x => x.Split(new char[] { ':' }, 2)[1] );
+            
+            switch (currentMode)
+            {
+                case Mode.SPOTIFY:
+                    await CreateSpotifyPlaylistAsync(split);
+                    break;
+                case Mode.SOUNDCLOUD:
+                    break;
+            }
             btnCreatePlaylist.Enabled = true;
-
-
-            //aux.IsBackground = true;
-            //aux.Start();
 
         }
 
@@ -132,12 +166,61 @@ namespace SpotOsu
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this, "Developed by: Bordex\nOsu profile: https://osu.ppy.sh/u/4887459 \nTwitter: https://twitter.com/vicbordex \n\n Check for Updates: https://github.com/ByBordex/SpotOsu/releases");
+            //MessageBox.Show(this, "Developed by: Bordex\nOsu profile: https://osu.ppy.sh/u/4887459 \nTwitter: https://twitter.com/vicbordex \n\n Check for Updates: https://github.com/ByBordex/SpotOsu/releases");
+            List<List<String>> labels = new List<List<string>>();
+            var l1 = new List<string>(); l1.Add("Developed by: Bordex");
+                l1.Add("https://osu.ppy.sh/u/4887459 ");
+            var l2 = new List<string>(); l2.Add("Check for Updates:");
+                l2.Add("https://github.com/ByBordex/SpotOsu/releases ");
+            labels.Add(l1); labels.Add(l2);
+            new FormLinkable(labels).Show();
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/ByBordex/SpotOsu/blob/master/README.md");
+            List<List<String>> labels = new List<List<string>>();
+            var l1 = new List<string>(); l1.Add("Usage guide");
+            //l1.Add("https://github.com/ByBordex/SpotOsu/blob/master/README.md ");
+            new FormLinkable(labels).Show();
+        }
+
+        private void btnChangeMode_Click(object sender, EventArgs e)
+        {
+            if (currentMode == Mode.SPOTIFY)
+                ChangeMode(Mode.SOUNDCLOUD);
+            else
+                ChangeMode(Mode.SPOTIFY);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstPlaylist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstPlaylist.SelectedItems.Cast<string>().Count() == 0)
+            {
+                return;
+            }
+            var name = lstPlaylist.SelectedItem.ToString();
+            var split = name.Split('-',':');
+            var set_id = int.Parse(split[0]);
+
+            string osuFolder = txtOsuPath.Text;
+
+            var bm = mf.GetBeatmapsBySetIDList(new int[] { set_id }).First() ;
+            lblSongName.Text = "Title: " + bm.title;
+            lblArtist.Text = "Artist: " + bm.artist;
+
+
+            if (File.Exists(osuFolder + "data\\bt\\" + bm.beatmapSetID + "l.jpg"))
+                pictureBox1.ImageLocation = osuFolder + "data\\bt\\" + bm.beatmapSetID + "l.jpg";
+            else if (File.Exists(osuFolder + "data\\bt\\" + bm.beatmapSetID + ".jpg"))
+                pictureBox1.ImageLocation = osuFolder + "data\\bt\\" + bm.beatmapSetID + ".jpg";
+            else
+                pictureBox1.ImageLocation = null;
+
         }
     }
 }

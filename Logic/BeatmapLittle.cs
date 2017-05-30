@@ -11,10 +11,15 @@ namespace Logic
     {
 
         public string title, artist;
+        public string songTags;
+        public int beatmapId, beatmapSetID;
         public BeatmapLittle(BeatmapEntry bm)
         {
             title = bm.Title;
             artist = bm.Artist;
+            songTags = bm.SongTags;
+            beatmapId = bm.BeatmapId;
+            beatmapSetID = bm.BeatmapSetId;
         }
         public BeatmapLittle(String str)
         {
@@ -28,11 +33,12 @@ namespace Logic
         }
         public string searchString()
         {
-            return artist + " " + title;
+            return artist +"+"+ title;
         }
+
         public string ToListBoxString()
         {
-            return title + " - " + artist;
+            return beatmapSetID + ": " + title + " - " + artist;
         }
 
     }

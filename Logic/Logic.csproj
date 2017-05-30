@@ -81,6 +81,7 @@
     <Compile Include="BeatmapLittle.cs" />
     <Compile Include="MainFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundCloud.cs" />
     <Compile Include="Spotify.cs" />
     <Compile Include="SpotifyException.cs" />
   </ItemGroup>

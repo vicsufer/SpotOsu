@@ -56,14 +56,20 @@ namespace SpotOsu
             this.lblCollections = new System.Windows.Forms.Label();
             this.lblSongs = new System.Windows.Forms.Label();
             this.lblPlaylsitSongs = new System.Windows.Forms.Label();
+            this.btnChangeMode = new System.Windows.Forms.Button();
+            this.lblSongName = new System.Windows.Forms.Label();
+            this.lblArtist = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblTags = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSpotifyClientID
             // 
             this.lblSpotifyClientID.AutoSize = true;
-            this.lblSpotifyClientID.Location = new System.Drawing.Point(37, 314);
+            this.lblSpotifyClientID.Location = new System.Drawing.Point(103, 314);
             this.lblSpotifyClientID.Name = "lblSpotifyClientID";
             this.lblSpotifyClientID.Size = new System.Drawing.Size(82, 13);
             this.lblSpotifyClientID.TabIndex = 0;
@@ -71,14 +77,14 @@ namespace SpotOsu
             // 
             // txtSpotifyClient
             // 
-            this.txtSpotifyClient.Location = new System.Drawing.Point(125, 311);
+            this.txtSpotifyClient.Location = new System.Drawing.Point(191, 311);
             this.txtSpotifyClient.Name = "txtSpotifyClient";
             this.txtSpotifyClient.Size = new System.Drawing.Size(239, 20);
             this.txtSpotifyClient.TabIndex = 1;
             // 
             // txtPlaylistName
             // 
-            this.txtPlaylistName.Location = new System.Drawing.Point(125, 337);
+            this.txtPlaylistName.Location = new System.Drawing.Point(191, 337);
             this.txtPlaylistName.Name = "txtPlaylistName";
             this.txtPlaylistName.Size = new System.Drawing.Size(239, 20);
             this.txtPlaylistName.TabIndex = 3;
@@ -86,7 +92,7 @@ namespace SpotOsu
             // lblPlaylistName
             // 
             this.lblPlaylistName.AutoSize = true;
-            this.lblPlaylistName.Location = new System.Drawing.Point(46, 340);
+            this.lblPlaylistName.Location = new System.Drawing.Point(112, 340);
             this.lblPlaylistName.Name = "lblPlaylistName";
             this.lblPlaylistName.Size = new System.Drawing.Size(73, 13);
             this.lblPlaylistName.TabIndex = 2;
@@ -94,7 +100,7 @@ namespace SpotOsu
             // 
             // btnCreatePlaylist
             // 
-            this.btnCreatePlaylist.Location = new System.Drawing.Point(370, 309);
+            this.btnCreatePlaylist.Location = new System.Drawing.Point(436, 309);
             this.btnCreatePlaylist.Name = "btnCreatePlaylist";
             this.btnCreatePlaylist.Size = new System.Drawing.Size(91, 48);
             this.btnCreatePlaylist.TabIndex = 4;
@@ -154,6 +160,7 @@ namespace SpotOsu
             this.lstPlaylist.Name = "lstPlaylist";
             this.lstPlaylist.Size = new System.Drawing.Size(180, 225);
             this.lstPlaylist.TabIndex = 10;
+            this.lstPlaylist.SelectedIndexChanged += new System.EventHandler(this.lstPlaylist_SelectedIndexChanged);
             this.lstPlaylist.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstPlaylist_MouseDoubleClick);
             // 
             // lblCurrentStatus
@@ -169,7 +176,7 @@ namespace SpotOsu
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lblCurrentStatus);
-            this.groupBox1.Location = new System.Drawing.Point(483, 307);
+            this.groupBox1.Location = new System.Drawing.Point(536, 307);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(84, 50);
             this.groupBox1.TabIndex = 13;
@@ -189,7 +196,7 @@ namespace SpotOsu
             this.otherToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(628, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(855, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -267,11 +274,59 @@ namespace SpotOsu
             this.lblPlaylsitSongs.TabIndex = 19;
             this.lblPlaylsitSongs.Text = "Playlist songs:";
             // 
+            // btnChangeMode
+            // 
+            this.btnChangeMode.Location = new System.Drawing.Point(17, 309);
+            this.btnChangeMode.Name = "btnChangeMode";
+            this.btnChangeMode.Size = new System.Drawing.Size(80, 48);
+            this.btnChangeMode.TabIndex = 20;
+            this.btnChangeMode.Text = "SoundCloud Mode";
+            this.btnChangeMode.UseVisualStyleBackColor = true;
+            this.btnChangeMode.Click += new System.EventHandler(this.btnChangeMode_Click);
+            // 
+            // lblSongName
+            // 
+            this.lblSongName.AutoSize = true;
+            this.lblSongName.Location = new System.Drawing.Point(634, 270);
+            this.lblSongName.Name = "lblSongName";
+            this.lblSongName.Size = new System.Drawing.Size(0, 13);
+            this.lblSongName.TabIndex = 21;
+            // 
+            // lblArtist
+            // 
+            this.lblArtist.AutoSize = true;
+            this.lblArtist.Location = new System.Drawing.Point(634, 290);
+            this.lblArtist.Name = "lblArtist";
+            this.lblArtist.Size = new System.Drawing.Size(0, 13);
+            this.lblArtist.TabIndex = 22;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(634, 65);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 23;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblTags
+            // 
+            this.lblTags.AutoSize = true;
+            this.lblTags.Location = new System.Drawing.Point(634, 310);
+            this.lblTags.Name = "lblTags";
+            this.lblTags.Size = new System.Drawing.Size(0, 13);
+            this.lblTags.TabIndex = 24;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 369);
+            this.ClientSize = new System.Drawing.Size(855, 369);
+            this.Controls.Add(this.lblTags);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblArtist);
+            this.Controls.Add(this.lblSongName);
+            this.Controls.Add(this.btnChangeMode);
             this.Controls.Add(this.lblPlaylsitSongs);
             this.Controls.Add(this.lblSongs);
             this.Controls.Add(this.lblCollections);
@@ -291,11 +346,13 @@ namespace SpotOsu
             this.Controls.Add(this.lblSpotifyClientID);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "SpotOsu!";
+            this.Text = "SpotOsu! v0.3";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,6 +384,11 @@ namespace SpotOsu
         private Label lblCollections;
         private Label lblSongs;
         private Label lblPlaylsitSongs;
+        private Button btnChangeMode;
+        private Label lblSongName;
+        private Label lblArtist;
+        private PictureBox pictureBox1;
+        private Label lblTags;
     }
 }
 

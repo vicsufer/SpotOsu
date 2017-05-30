@@ -16,7 +16,7 @@ namespace Logic
     public class Spotify
     {
         private readonly SpotifyWebAPI _spotify;
-        int apiSleepTime = 200;
+        int apiSleepTime = 250;
         public Spotify(string clientID)
         {
             _spotify = new SpotifyWebAPI();
@@ -62,7 +62,7 @@ namespace Logic
             {
                 Thread.Sleep(apiSleepTime);
                 Console.WriteLine("Error Status: " + playlist.Error.Status);
-                Console.WriteLine("Error Msg: " + playlist.Error.Message);
+                Console.WriteLine("Error Msg: CreatePlayList" + playlist.Error.Message);
             }
             return playlist;
         }
@@ -75,7 +75,7 @@ namespace Logic
             while (item.HasError())
             {
                 Console.WriteLine("Error Status: " + item.Error.Status);
-                Console.WriteLine("Error Msg: " + item.Error.Message);
+                Console.WriteLine("Error Msg: FindTrackByBeatmap " + item.Error.Message);
 
                 Thread.Sleep(apiSleepTime);
 
@@ -101,7 +101,7 @@ namespace Logic
             return aux;
         }
 
-        public void CreatePlaylistByCollection(string name, IEnumerable<BeatmapLittle> collection, bool mode = true)
+        public void CreatePlaylistByCollection(string name, IEnumerable<BeatmapLittle> collection, out int numberOfSongs, bool mode = true)
         {
             var tracks = FindTracksByCollection(collection).Select( x => x.Uri).ToList();
             var playlist = CreatePlaylist(name, mode);
@@ -109,12 +109,12 @@ namespace Logic
             while (user.HasError())
             {
                 Console.WriteLine("Error Status: " + user.Error.Status);
-                Console.WriteLine("Error Msg: " + user.Error.Message);
+                Console.WriteLine("Error Msg: CreatePlayListByCollection" + user.Error.Message);
                 Thread.Sleep(20);
                 user = _spotify.GetPrivateProfile();
             }
             _spotify.AddPlaylistTracks(user.Id, playlist.Id, tracks );
-        
+            numberOfSongs = tracks.Count();
         }
     }
 }
