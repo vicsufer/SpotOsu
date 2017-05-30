@@ -3,9 +3,11 @@ Desktop application to create spotify playlists from osu!
   - Load collections.
   - Customize your playlist.
   - Enjoy!
-
+### Download
+   - [Releaes](https://github.com/ByBordex/SpotOsu/releases)
+  
 ### Usage 
-  - Select osu path and press Load(Default one is already selected).
+  - Select osu path and press Load (Default one is already selected).
   - Select the collection to load or every beatmap.
   - Tweak your selection.
   - Place an Spotify API clientID token.
@@ -24,4 +26,5 @@ Desktop application to create spotify playlists from osu!
 
 - JohnnyCrazy: [Spotify API Wrapper](https://github.com/JohnnyCrazy/SpotifyAPI-NET).
 - Holly-Hacker: [Osu! database reader](https://github.com/HoLLy-HaCKeR/osu-database-reader).
-
+- Ppy: [osu!](https://osu.ppy.sh/)[ppy](https://ppy.sh/)
+- Spotify team: [Spotify](https://www.spotify.com)
