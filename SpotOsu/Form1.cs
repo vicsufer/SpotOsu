@@ -35,20 +35,32 @@ namespace SpotOsu
 
         private void lstCollections_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            // Get the currently selected item in the ListBox.
-            string currentCollection = lstCollections.SelectedItem.ToString();
-            var songs = mf.GetCollectionBeatmaps(currentCollection).GroupBy( x=> x.title).Select( x=> x.First());
             lstSongs.Items.Clear();
             lstPlaylist.Items.Clear();
 
-            foreach(var song in songs)
+            if (lstCollections.SelectedItems.Count == 0)
+                return;
+            var strings = lstCollections.SelectedItems.Cast<string>();
+
+            List<BeatmapLittle> tracks = new List<BeatmapLittle>();
+            foreach (var s in strings)
+            {
+                var aux = mf.GetCollectionBeatmaps(s);
+                foreach (var each in aux)
+                {
+                    tracks.Add(each);
+                }
+            }
+            var tracks2 = tracks.GroupBy( x => x.title).Select( x=>x.First() );
+
+            foreach(var song in tracks2)
             {
                 lstSongs.Items.Add( song.ToListBoxString() );
                 lstPlaylist.Items.Add( song.ToListBoxString() );
             }
         }
 
-        private void btnCreatePlaylist_Click(object sender, EventArgs e)
+        private async void btnCreatePlaylist_Click(object sender, EventArgs e)
         {
             
             string token = txtSpotifyClient.Text;
@@ -65,8 +77,27 @@ namespace SpotOsu
             btnCreatePlaylist.Enabled = false;
             var items = lstPlaylist.Items.Cast<String>();
             lblCurrentStatus.Text = "Working...\nPlease wait.";
-            //Thread aux = new Thread( () => { mf.CreatePlaylist(token, playlistName, items); /*CreationCompleted()*/;} );
-            lblCurrentStatus.Invoke((MethodInvoker)(() => { mf.CreatePlaylist(token, playlistName, items); CreationCompleted(); }));
+
+
+            try
+            {
+                //Action action = () => mf.CreatePlaylistAsync(token, playlistName, items);
+                //Task task = new Task(action);
+                //task.Start();
+                //await task;
+                await mf.CreatePlaylistAsync(token, playlistName, items);
+
+
+                lblCurrentStatus.Text = "Completed";
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message);
+                lblCurrentStatus.Text = "Error";
+            }
+            btnCreatePlaylist.Enabled = true;
+
+
             //aux.IsBackground = true;
             //aux.Start();
 

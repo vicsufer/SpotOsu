@@ -26,7 +26,7 @@ namespace Logic
             osu_db = OsuDb.Read(Osu_path + "osu!.db");
         }
 
-        public void CreatePlaylist(string clientID, string playlistName, IEnumerable<string> collection = null, bool mode = true)
+        public async Task CreatePlaylistAsync(string clientID, string playlistName, IEnumerable<string> collection = null, bool mode = true)
         {
             sp = new Spotify(clientID);
             sp.CreatePlaylistByCollection(playlistName, GetBeatmapsByNamesList(collection) ,true);
