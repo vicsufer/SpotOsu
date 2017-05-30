@@ -13,7 +13,7 @@ Desktop application to create spotify playlists from osu!
   - Place an Spotify API clientID token.
   - Input a playlist name
   - Press create playlist button.
-  - [Step-By-Step Video](https://www.youtube.com/edit?o=U&feature=vm&video_id=omc558isym4)
+  - [Step-By-Step Video](https://www.youtube.com/watch?v=omc558isym4)
 ### Setup Spotify Application
 
 - [Create spotify Application](https://developer.spotify.com/my-applications/#!/applications/create), you can use whichever name and description you want.
