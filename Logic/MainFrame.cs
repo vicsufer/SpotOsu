@@ -19,19 +19,6 @@ namespace Logic
 
         public const int MAX_BEATMAPS = 400;
 
-        static void Main(string[] args)
-        {
-            string OsuPath = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\";
-           // collections_db = CollectionDb.Read(OsuPath + "collection.db");
-            //osu_db = OsuDb.Read(OsuPath + "osu!.db");
-            ////showCollectionBeatmaps();
-            //showEnumerable( GetCollectionBeatmaps("favs")  );
-            //Spotify sp = new Spotify("37f38404eb534b2eaf877c9b48639b49");
-            //showEnumerable(GetAllBeatmaps());
-            //var list = GetCollectionBeatmaps("testAPP");
-            //sp.CreatePlaylistByCollection("prueba", GetAllBeatmaps()  );
-        }
-
         public MainFrame(string path = "")
         {
             Osu_path = !path.Equals("") ? path : $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\";
