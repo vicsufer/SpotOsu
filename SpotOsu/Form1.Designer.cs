@@ -52,6 +52,10 @@ namespace SpotOsu
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblCollections = new System.Windows.Forms.Label();
+            this.lblSongs = new System.Windows.Forms.Label();
+            this.lblPlaylsitSongs = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -217,6 +221,7 @@ namespace SpotOsu
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -225,11 +230,51 @@ namespace SpotOsu
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(376, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "label1";
+            // 
+            // lblCollections
+            // 
+            this.lblCollections.AutoSize = true;
+            this.lblCollections.Location = new System.Drawing.Point(14, 47);
+            this.lblCollections.Name = "lblCollections";
+            this.lblCollections.Size = new System.Drawing.Size(61, 13);
+            this.lblCollections.TabIndex = 17;
+            this.lblCollections.Text = "Collections:";
+            // 
+            // lblSongs
+            // 
+            this.lblSongs.AutoSize = true;
+            this.lblSongs.Location = new System.Drawing.Point(223, 49);
+            this.lblSongs.Name = "lblSongs";
+            this.lblSongs.Size = new System.Drawing.Size(87, 13);
+            this.lblSongs.TabIndex = 18;
+            this.lblSongs.Text = "Collection songs:";
+            // 
+            // lblPlaylsitSongs
+            // 
+            this.lblPlaylsitSongs.AutoSize = true;
+            this.lblPlaylsitSongs.Location = new System.Drawing.Point(441, 49);
+            this.lblPlaylsitSongs.Name = "lblPlaylsitSongs";
+            this.lblPlaylsitSongs.Size = new System.Drawing.Size(73, 13);
+            this.lblPlaylsitSongs.TabIndex = 19;
+            this.lblPlaylsitSongs.Text = "Playlist songs:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 369);
+            this.Controls.Add(this.lblPlaylsitSongs);
+            this.Controls.Add(this.lblSongs);
+            this.Controls.Add(this.lblCollections);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lstPlaylist);
@@ -277,6 +322,10 @@ namespace SpotOsu
         private ToolStripMenuItem otherToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
+        private Label label1;
+        private Label lblCollections;
+        private Label lblSongs;
+        private Label lblPlaylsitSongs;
     }
 }
 
