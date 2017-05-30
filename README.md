@@ -4,7 +4,7 @@ Desktop application to create spotify playlists from osu!
   - Customize your playlist.
   - Enjoy!
 ### Download
-   - [Releaes](https://github.com/ByBordex/SpotOsu/releases)
+   - [Relases](https://github.com/ByBordex/SpotOsu/releases)
   
 ### Usage 
   - Select osu path and press Load (Default one is already selected).
